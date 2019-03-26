@@ -1,0 +1,13 @@
+#comic-strip-container {
+  display: block;
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+#comic-strip-controls {
+  text-align: center;
+}
+
+#date-span {
+  margin: 0 10px;
+}

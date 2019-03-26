@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "name": "ComicStripTab",
+  "version": "1",
+
+  "description": "Daily Comic Strip in your default tab.",
+  "icons": {
+    "16": "comic-strip-tab-16.png",
+    "48": "comic-strip-tab-48.png",
+    "128": "comic-strip-tab-128.png"
+  },
+
+  "author": "Antal Orcsik",
+
+  "browser_action": {
+    "default_icon": {
+      "16": "comic-strip-tab-16.png",
+      "48": "comic-strip-tab-48.png",
+      "128": "comic-strip-tab-128.png"
+    },
+    "default_title": "Have a good laugh!"
+  },
+
+  "chrome_url_overrides" : {
+    "newtab": "main.html"
+  },
+  "permissions": ["activeTab"],
+
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  }
+}
