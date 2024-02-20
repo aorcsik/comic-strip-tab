@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "ComicStripTab",
   "version": "1",
 
@@ -12,7 +12,7 @@
 
   "author": "Antal Orcsik",
 
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "comic-strip-tab-16.png",
       "48": "comic-strip-tab-48.png",
