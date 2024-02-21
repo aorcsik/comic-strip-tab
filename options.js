@@ -1,17 +1,41 @@
-var pattern = localStorage.comicStripPattern || "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/{yyyy}/{yyyy}-{mm}-{dd}.gif";
 
-document.getElementById("comic-strip-pattern").value = pattern;
-document.getElementById("comic-strip-preview").src = getPatternUrl(pattern);
+/** @type {HTMLTextAreaElement} */
+const comicStripPatternTextArea = document.getElementById("comic-strip-pattern");
 
-document.getElementById("preview-btn").addEventListener("click", function() {
-  document.getElementById("comic-strip-preview").src = getPatternUrl(document.getElementById("comic-strip-pattern").value);
+/** @type {HTMLImageElement} */
+const comicStripPreviewImage = document.getElementById("comic-strip-preview");
+
+/** @type {HTMLButtonElement} */
+const previewButton = document.getElementById("preview-btn");
+
+/** @type {HTMLButtonElement} */
+const saveButton = document.getElementById("save-btn");
+
+/** @type {HTMLSpanElement} */
+const statusSpan = document.getElementById("status-span");
+
+/** */
+async function init() {
+  const { comicStripPattern: pattern } = await chrome.storage.local.get(["comicStripPattern"]);
+  comicStripPatternTextArea.value = pattern;
+  comicStripPreviewImage.src = getPatternUrl(pattern);
+}
+
+previewButton.addEventListener("click", function() {
+  const pattern = comicStripPatternTextArea.value;
+  comicStripPreviewImage.src = getPatternUrl(pattern);
 });
 
-document.getElementById("save-btn").addEventListener("click", function() {
-  localStorage.comicStripPattern = document.getElementById("comic-strip-pattern").value;
-  document.getElementById("comic-strip-preview").src = getPatternUrl(document.getElementById("comic-strip-pattern").value);
-  document.getElementById("status-span").innerHTML = "Saved.";
+saveButton.addEventListener("click", async function() {
+  const pattern = comicStripPatternTextArea.value;
+  await chrome.storage.local.set({ comicStripPattern: pattern});
+  
+  comicStripPreviewImage.src = getPatternUrl(pattern);
+
+  statusSpan.innerHTML = "Saved.";
   window.setTimeout(function() {
-    document.getElementById("status-span").innerHTML = "";
+    statusSpan.innerHTML = "";
   }, 1000);
 });
+
+init();

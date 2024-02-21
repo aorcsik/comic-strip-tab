@@ -24,7 +24,10 @@
   "chrome_url_overrides" : {
     "newtab": "main.html"
   },
-  "permissions": ["activeTab"],
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
 
   "options_ui": {
     "page": "options.html",

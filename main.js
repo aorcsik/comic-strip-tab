@@ -1,20 +1,37 @@
-var pattern = localStorage.comicStripPattern || "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/{yyyy}/{yyyy}-{mm}-{dd}.gif";
-var container = document.getElementById("comic-strip-container");
+/** @type {HTMLButtonElement} */
+const previousButton = document.getElementById("previous-btn");
 
-var today = new Date(), date = new Date();
-container.src = getPatternUrl(pattern, date);
-document.getElementById("date-span").innerHTML = date.toDateString();
+/** @type {HTMLButtonElement} */
+const nextButton = document.getElementById("next-btn");
 
-document.getElementById("previous-btn").addEventListener("click", function() {
+/** @type {HTMLImageElement} */
+const comicStripContainer = document.getElementById("comic-strip-container");
+
+/** @type {HTMLSpanElement} */
+const dateSpan = document.getElementById("date-span");
+
+const today = new Date();
+const date = new Date();
+
+/**
+ * @param {Date} date 
+ */
+async function loadComicStrip(date) {
+  const { comicStripPattern: pattern } = await chrome.storage.local.get(["comicStripPattern"]);
+  console.log(pattern);
+  comicStripContainer.src = getPatternUrl(pattern, date);
+  dateSpan.innerHTML = date.toDateString();
+  nextButton.disabled = today.getDate() == date.getDate();
+}
+
+previousButton.addEventListener("click", function() {
   date.setDate(date.getDate() - 1);
-  container.src = getPatternUrl(pattern, date);
-  if (today.getDate() != date.getDate()) document.getElementById("next-btn").disabled = false;
-  document.getElementById("date-span").innerHTML = date.toDateString();
+  loadComicStrip(date);
 });
 
-document.getElementById("next-btn").addEventListener("click", function() {
+nextButton.addEventListener("click", function() {
   date.setDate(date.getDate() + 1);
-  container.src = getPatternUrl(pattern, date);
-  if (today.getDate() == date.getDate()) document.getElementById("next-btn").disabled = true;
-  document.getElementById("date-span").innerHTML = date.toDateString();
+  loadComicStrip(date);
 });
+
+loadComicStrip(date);
